@@ -139,7 +139,7 @@ export const modelCost = {
     completion: { price: 0.015, unit: 1000 },
   },
   'o1': {
-    prompt: { price: 0.01, unit 1000 },
+    prompt: { price: 0.01, unit: 1000 },
     completion: { price: 0.015, unit: 1000 },
   },
 };
