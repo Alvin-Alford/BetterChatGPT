@@ -141,7 +141,7 @@ export const modelCost = {
   'o1': {
     prompt: { price: 0.01, unit 1000 },
     completion: { price: 0.015, unit: 1000 },
-  }
+  },
 };
 
 export const defaultUserMaxToken = 4000;
