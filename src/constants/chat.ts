@@ -58,7 +58,7 @@ export const modelMaxToken = {
   'gpt-4-turbo-2024-04-09': 128000,
   'gpt-4o': 128000,
   'gpt-4o-2024-05-13': 128000,
-  'o1-mini': 100000,
+  'o1-mini': 128000,
 };
 
 export const modelCost = {
