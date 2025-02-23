@@ -1,4 +1,5 @@
-name: Build and publish desktop app
+name: Build and Publish Desktop App
+
 on:
   workflow_dispatch:
 
@@ -12,21 +13,48 @@ jobs:
       matrix:
         os: [macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
       - name: Use Node.js 18
         uses: actions/setup-node@v3
         with:
           node-version: 18
+          cache: 'yarn'
 
-      - name: Install dependencies
-        run: yarn
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
 
-      - name: Build
+      - name: Setup macOS Code Signing (if macOS)
+        if: matrix.os == 'macos-latest'
+        env:
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+        run: |
+          echo "$APPLE_CERTIFICATE" | base64 --decode > certificate.p12
+          security create-keychain -p "" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "" build.keychain
+          security import certificate.p12 -k build.keychain -P "$APPLE_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -k "" build.keychain
+
+      - name: Build Application
         run: yarn make
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VITE_GOOGLE_CLIENT_ID: ${{ secrets.GCLIENT }}
-          
+
+      - name: Ensure Proper DMG Unmounting (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          diskutil unmount /dev/disk4 || true
+          sleep 2
+          hdiutil detach -force /dev/disk4 || true
+
+      - name: Publish Release
+        run: yarn run electron-builder --publish always
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
