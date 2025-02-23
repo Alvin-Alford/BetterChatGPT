@@ -53,8 +53,5 @@ jobs:
           sleep 2
           hdiutil detach -force /dev/disk4 || true
 
-      - name: Publish Release
-        run: yarn run electron-builder --publish always
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
