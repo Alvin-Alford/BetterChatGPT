@@ -145,8 +145,8 @@ export const modelCost = {
     completion: { price: 0.015, unit: 1000 },
   },
   'o3-mini': {
-    prompt: { price: 0.01, unit: 1000 },
-    completion: { price: 0.015, unit: 1000 },
+    prompt: { price: 0.0011, unit: 1000 },
+    completion: { price: 0.0044, unit: 1000 },
   },
 };
 
