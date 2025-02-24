@@ -31,6 +31,7 @@ export const modelOptions: ModelOptions[] = [
   'gpt-4o',
   'gpt-4o-2024-05-13',
   'o1-mini',
+  'o3-mini',
   // 'gpt-3.5-turbo-0301',
   // 'gpt-4-0314',
   // 'gpt-4-32k-0314',
@@ -59,6 +60,7 @@ export const modelMaxToken = {
   'gpt-4o': 128000,
   'gpt-4o-2024-05-13': 128000,
   'o1-mini': 128000,
+  'o3-mini': 100000,
 };
 
 export const modelCost = {
@@ -139,6 +141,10 @@ export const modelCost = {
     completion: { price: 0.015, unit: 1000 },
   },
   'o1-mini': {
+    prompt: { price: 0.01, unit: 1000 },
+    completion: { price: 0.015, unit: 1000 },
+  },
+  'o3-mini': {
     prompt: { price: 0.01, unit: 1000 },
     completion: { price: 0.015, unit: 1000 },
   },
